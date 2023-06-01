@@ -18,6 +18,10 @@ export default function Zone ({zoneNumber}) {
                 emptyNameCount++;
                 continue;
             }
+            // check if the length of shalf name is smaller than 20
+            if (shelfName.length > 20) {
+                errorMsgList.push(shelfName + " is too long (maximum 20 characters).")
+            }
             // check if name is unique in this zone
             if (existingNames.has(shelfName)) {
                 errorMsgList.push(shelfName + " is not a unique name in the Zone.")
