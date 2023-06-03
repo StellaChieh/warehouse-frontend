@@ -1,16 +1,17 @@
 import "./App.css";
-import Zone from "./ZoneForm";
+import Zone from "./components/ZoneForm";
 import { Container, Accordion } from "react-bootstrap";
 
 function App() {
+  const warehouseId = "1";
   const zoneIndex = Array.from({ length: 12 }, (value, index) => index);
   const zones = zoneIndex.map((val, index) => {
-    const zoneNumber = index + 1;
+    const zoneId = index + 1;
     return (
-      <Accordion.Item eventKey={zoneNumber} key={zoneNumber}>
-        <Accordion.Header>Zone {zoneNumber}</Accordion.Header>
+      <Accordion.Item eventKey={zoneId} key={zoneId}>
+        <Accordion.Header>Zone {zoneId}</Accordion.Header>
         <Accordion.Body>
-          <Zone zoneNumber={zoneNumber} />
+          <Zone zoneId={zoneId} warehouseId={warehouseId}/>
         </Accordion.Body>
       </Accordion.Item>
     );
