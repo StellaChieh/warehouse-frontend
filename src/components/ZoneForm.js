@@ -68,7 +68,7 @@ export default function Zone({ zoneId, warehouseId }) {
       alert("Submit successfully!")
     } catch (error) {
       if(error.response.status === BAD_REQUEST) {
-        alert(error.response.data.msg)
+        alert(error.response.data.msg.join('\n'))
       } else if (error.response.status === SERVER_ERROR) {
         alert("There is a temporary server error. Please try again later.")
       }
@@ -83,7 +83,7 @@ export default function Zone({ zoneId, warehouseId }) {
     if (validateStatus) {
       await submitForm(msg)
     } else {
-      alert(msg);
+      alert(msg.join('\n'));
     }
   }
 
