@@ -1,9 +1,8 @@
-import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
-import axios from "../utilities/axios"
-import { BAD_REQUEST, SERVER_ERROR } from "../utilities/HttpStatusCode"
+import { Button, Col, Form, Row } from "react-bootstrap";
+import axios from "../utilities/axios";
+import { BAD_REQUEST, SERVER_ERROR } from "../utilities/HttpStatusCode";
 
 export default function Zone({ zoneId, warehouseId }) {
-
   const MAXIMUM_SHELF_NAME_LENGTH = 20;
   const MAXIMUM_SHELF_NUMBER_IN_ZONE = 10;
 
@@ -15,26 +14,25 @@ export default function Zone({ zoneId, warehouseId }) {
     const existingNames = new Set();
     const errorMsgList = [];
     const validatedShelveNamesObj = {};
-    let emptyNameCount = 0
+    let emptyNameCount = 0;
     for (const shelfId in shelfNamesObj) {
       const shelfName = shelfNamesObj[shelfId];
 
       // check if the shelf name is not empty
       if (shelfName.length === 0) {
         emptyNameCount++;
-        
-      // check if the length of shelf name is less than 20
+
+        // check if the length of shelf name is less than 20
       } else if (shelfName.length > MAXIMUM_SHELF_NAME_LENGTH) {
         errorMsgList.push(shelfName + " is too long (maximum 20 characters).");
-      
-      // check if name is unique in this zone
+
+        // check if name is unique in this zone
       } else if (existingNames.has(shelfName)) {
         errorMsgList.push(shelfName + " is not a unique name in this Zone.");
-        
-      // check if name only contains English letters and numbers
+
+        // check if name only contains English letters and numbers
       } else if (!onlyLettersAndNumbers(shelfName)) {
         errorMsgList.push(shelfName + " is not a valid shelf name.");
-      
       } else {
         validatedShelveNamesObj[shelfId] = shelfName;
         existingNames.add(shelfName);
@@ -46,9 +44,9 @@ export default function Zone({ zoneId, warehouseId }) {
     }
 
     if (errorMsgList.length === 0) {
-      return { 
+      return {
         validateStatus: true,
-        msg: validatedShelveNamesObj
+        msg: validatedShelveNamesObj,
       };
     } else {
       return {
@@ -63,14 +61,17 @@ export default function Zone({ zoneId, warehouseId }) {
       await axios.post("/api/warehouseZone", {
         warehouseId,
         zoneId,
-        shelfNames: validatedIdAndShelfNames
-      })
-      alert("Submit successfully!")
+        shelfNames: validatedIdAndShelfNames,
+      });
+      alert("Submit successfully!");
     } catch (error) {
-      if(error.response.status === BAD_REQUEST) {
-        alert("FAILED!!\n" + error.response.data.msg.join('\n'))
+      if (error.response.status === BAD_REQUEST) {
+        alert("FAILED!!\n" + error.response.data.msg.join("\n"));
       } else if (error.response.status === SERVER_ERROR) {
-        alert("FAILED!!\n" + "There is a temporary server error. Please try again later.")
+        alert(
+          "FAILED!!\n" +
+            "There is a temporary server error. Please try again later."
+        );
       }
     }
   }
@@ -81,22 +82,21 @@ export default function Zone({ zoneId, warehouseId }) {
     const shelfIdAndNames = Object.fromEntries(formData.entries());
     const { validateStatus, msg } = validateShelfName(shelfIdAndNames);
     if (validateStatus) {
-      await submitForm(msg)
+      await submitForm(msg);
     } else {
-      alert("FAILED!!\n" + msg.join('\n'));
+      alert("FAILED!!\n" + msg.join("\n"));
     }
   }
 
   let columNumber = 0;
   return (
-    
     <Form onSubmit={submitHandler}>
       <Row className="mb-3">
         <Col>
-            <Form.Control placeholder="Input Shelf Name" name={columNumber++} />
+          <Form.Control placeholder="Input Shelf Name" name={columNumber++} />
         </Col>
         <Col>
-            <Form.Control placeholder="Input Shelf Name" name={columNumber++} />
+          <Form.Control placeholder="Input Shelf Name" name={columNumber++} />
         </Col>
       </Row>
       <Row className="mb-3">

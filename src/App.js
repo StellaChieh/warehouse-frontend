@@ -11,7 +11,7 @@ function App() {
       <Accordion.Item eventKey={zoneId} key={zoneId}>
         <Accordion.Header>Zone {zoneId}</Accordion.Header>
         <Accordion.Body>
-          <Zone zoneId={zoneId} warehouseId={warehouseId}/>
+          <Zone zoneId={zoneId} warehouseId={warehouseId} />
         </Accordion.Body>
       </Accordion.Item>
     );
